@@ -1,7 +1,7 @@
 #!/bin/sh
 #Starting all containers
 
-cd back || exit
+cd emulator || exit
 docker compose up -d --build
 cd ..
 cd front || exit

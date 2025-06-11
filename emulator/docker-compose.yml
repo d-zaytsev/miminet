@@ -1,11 +1,11 @@
 version: "3.9"
 
 services:
-  miminet:
+  celery_workers:
     build:
       context: .
       dockerfile: ./Dockerfile
-    container_name: celery
+    container_name: emulator_celery
     network_mode: "host"
     restart: always
     env_file:

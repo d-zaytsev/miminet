@@ -30,11 +30,11 @@ services:
         condition: service_healthy
     command: ["/app/run_app.sh"]
 
-  front_celery_worker:
+  celery_workers:
     build:
       context: .
       dockerfile: ./Dockerfile
-    container_name: front_celery
+    container_name: back_celery
     restart: always
     networks:
       miminet_network:
