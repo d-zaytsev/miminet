@@ -8,9 +8,8 @@ services:
     container_name: miminet
     restart: always
     networks:
-      miminet_network:
-        ipv4_address: 172.18.0.3
-      rabbitmq_network:
+      - miminet_network
+      - rabbitmq_network
     env_file:
       - .env
     expose:
@@ -37,9 +36,8 @@ services:
     container_name: back_celery
     restart: always
     networks:
-      miminet_network:
-        ipv4_address: 172.18.0.10
-      rabbitmq_network:
+      - miminet_network
+      - rabbitmq_network
     env_file:
       - .env
     volumes:
@@ -84,8 +82,7 @@ services:
     ports:
       - "80:80"
     networks:
-      miminet_network:
-        ipv4_address: 172.18.0.2
+      - miminet_network
   postgres:
       image: postgres:latest
       container_name: postgres
@@ -108,8 +105,7 @@ services:
       volumes:
         - pgdata:/var/lib/postgresql/data/pgdata
       networks:
-        miminet_network:
-          ipv4_address: 172.18.0.4
+        - miminet_network
 
 volumes:
   pgdata:
@@ -119,11 +115,5 @@ networks:
   miminet_network:
     name: miminet_network
     driver: bridge
-    ipam:
-      config:
-        - subnet: 172.18.0.0/16
   rabbitmq_network:
     name: rabbitmq_network
-    ipam:
-      config:
-        - subnet: 172.20.0.0/16
