@@ -28,6 +28,26 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    command: ["/app/run_app.sh"]
+
+  front_celery_worker:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: front_celery
+    restart: always
+    networks:
+      miminet_network:
+        ipv4_address: 172.18.0.10
+      rabbitmq_network:
+    env_file:
+      - .env
+    volumes:
+      - ./src:/app
+    depends_on:
+      - rabbitmq
+    command: celery -A celery_app worker --loglevel=info --concurrency=${celery_concurrency} -Q common-results-queue,task-checking-queue
+
   rabbitmq:
     image: rabbitmq:latest
     hostname: rabbitmq
